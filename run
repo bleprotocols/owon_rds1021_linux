@@ -1,0 +1,15 @@
+#!/bin/bash
+
+ARCH="$( arch )"
+LIBDIR="i386"
+
+if [ "$ARCH" = "x86_64" ]; then
+  LIBDIR="x86_64"
+fi
+
+if [ "$ARCH" = "ia64" ]; then
+  LIBDIR="x86_64"
+fi
+  
+
+java -Djava.library.path="./lib/$LIBDIR" -Djava.ext.dirs= -Dapp.dir="." -Duser.dir="." -classpath vds.jar com.owon.vds.tiny.Main                                                          
