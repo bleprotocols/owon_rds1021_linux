@@ -1,0 +1,22 @@
+#!/bin/bash
+WORKING_DIR="$(dirname $(readlink -f $0))"
+VDS_JAR="$WORKING_DIR/vds.jar"
+
+USER_DIR="$HOME/.owon-vds-tiny"
+
+ARCH="$( arch )"
+LIBDIR="i386"
+
+if [ "$ARCH" = "x86_64" ]; then
+  LIBDIR="x86_64"
+fi
+
+if [ "$ARCH" = "ia64" ]; then
+  LIBDIR="x86_64"
+fi
+
+LIBDIR="$WORKING_DIR/lib/$LIBDIR"
+
+mkdir $USER_DIR $USER_DIR/configuration $USER_DIR/flash_txt >/dev/null 2>&1
+touch $USER_DIR/flash_txt/flashmemory.txt >/dev/null 2>&1
+( cd $USER_DIR && java -Djava.library.path="$LIBDIR" -classpath "$VDS_JAR" com.owon.vds.tiny.Main )
